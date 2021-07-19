@@ -45,6 +45,10 @@ export const GlobalStyles = createGlobalStyle`
     cursor: pointer;
   }
 
+  ul {
+    list-style: none;
+  }
+
   a {
     color: inherit;
     text-decoration: none;
