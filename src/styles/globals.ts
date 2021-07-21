@@ -1,4 +1,4 @@
-import styled, { createGlobalStyle } from 'styled-components'
+import { createGlobalStyle } from 'styled-components'
 
 export const GlobalStyles = createGlobalStyle`
   /* VARIABLE CSS */
@@ -38,7 +38,7 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   body, input, textarea, select, button {
-    font: 400 1rem sans-serif;
+    font: 400 1rem 'roboto';
   }
 
   button {

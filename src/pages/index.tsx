@@ -1,7 +1,8 @@
 export default function App () {
   return (
     <>
-      Boilerplate
+      <h1>Home Page</h1>
     </>
   )
 }
+
