@@ -1,4 +1,5 @@
 // import App from "next/app";
+import { Header } from 'components'
 import { AppProps /* , AppContext */ } from 'next/app'
 import Head from 'next/head'
 // import { ThemeProvider } from '@material-ui/core/styles';
@@ -26,6 +27,7 @@ function MyApp ({ Component, pageProps }: AppProps) {
         <meta name="description" content="My boilerplete" />
       </Head>
       <GlobalStyles />
+      <Header/>
       <Component {...pageProps} />
     </>
   )
