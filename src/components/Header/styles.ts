@@ -7,7 +7,7 @@ import Link from '@material-ui/core/Link'
 import styled from 'styled-components'
 
 export const Header = styled(AppBar)`
-  height: 9%;
+  height: 10%;
   padding: 0 8%;
 
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
@@ -19,8 +19,14 @@ export const Header = styled(AppBar)`
 export const Bar = styled(Toolbar)`
   height: 100%;
 `
-export const NavLink = styled(Link)``
+export const NavLink = styled(Link)`
+  cursor: pointer;
+`
 
 export const Logo = styled(Typography)`
   flex-grow: 1;
+
+  img {
+    cursor: pointer;
+  }
 `
