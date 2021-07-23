@@ -1,4 +1,5 @@
 // import App from "next/app";
+import { ThemeProvider } from '@material-ui/core'
 import { Header } from 'components'
 import { AppProps /* , AppContext */ } from 'next/app'
 import Head from 'next/head'
@@ -6,6 +7,7 @@ import Head from 'next/head'
 // import CssBaseline from '@material-ui/core/CssBaseline'
 // import theme from '../src/theme';
 import React from 'react'
+import { theme } from 'theme/material'
 
 import { GlobalStyles } from '../styles/globals'
 
@@ -23,12 +25,14 @@ function MyApp ({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>Boilerplate</title>
-        <meta name="description" content="My boilerplete" />
+        <title>Cryptocurrency Wallet</title>
+        <meta name="description" content='Cryptocurrency Wallet' />
       </Head>
       <GlobalStyles />
-      <Header/>
-      <Component {...pageProps} />
+      <ThemeProvider theme={theme}>
+        <Header/>
+        <Component {...pageProps} />
+      </ThemeProvider>
     </>
   )
 }
