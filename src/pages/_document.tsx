@@ -40,6 +40,7 @@ export default class MyDocument extends Document {
       <Html lang="pt-BR">
         <Head>
           <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+          <link rel="shortcut icon" href="/icon.png" type="image/png" />
         </Head>
         <body>
           <Main />
