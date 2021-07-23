@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid'
 export const Details = styled(Grid)`
   padding: 3rem 0;
 
-  @media screen and (min-width: 506px) {
-    padding: 5rem 0;
+  @media screen and (min-width: 600px) {
+    padding: 7rem 0;
   }
 `
