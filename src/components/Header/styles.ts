@@ -8,7 +8,8 @@ import styled from 'styled-components'
 
 export const Header = styled(AppBar)`
   height: 10%;
-  padding: 0 8%;
+  max-width: 1280px;
+  margin: 0 auto;
 
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
   nav {
