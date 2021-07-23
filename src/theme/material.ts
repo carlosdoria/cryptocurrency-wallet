@@ -7,7 +7,7 @@ export const theme = createTheme({
       main: '#121214',
     },
     secondary: {
-      main: '#0044ff',
+      main: '#fbd625',
     },
     contrastThreshold: 3,
     tonalOffset: 0.2,
