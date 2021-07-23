@@ -10,7 +10,7 @@ interface PriceCardProps {
   price: number
 }
 
-export function PriceCard ({ title, price = 0 }: PriceCardProps) {
+export function PriceCard ({ title, price }: PriceCardProps) {
 
   return (
     <Grid item key={title} xs={12} sm={title === 'Enterprise' ? 12 : 6} md={4}>
@@ -26,10 +26,14 @@ export function PriceCard ({ title, price = 0 }: PriceCardProps) {
           </Typography>
 
           <Typography component="h2" variant="h3" color="textPrimary">
-            {Intl.NumberFormat('pt-br', {
-              style: 'currency',
-              currency: 'BRL'
-            }).format(price)}
+            { price ?
+              Intl.NumberFormat('pt-br', {
+                style: 'currency',
+                currency: 'BRL'
+              }).format(price)
+              :
+              'R$ 0,00'
+            }
           </Typography>
 
         </S.CardContainer>
