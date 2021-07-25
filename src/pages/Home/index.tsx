@@ -70,11 +70,11 @@ export default function Home () {
       <Grid container spacing={5} alignItems='center' justifyContent='space-between'>
         <PriceCard
           title='Britas'
-          price={britasPrice.cotacaoCompra}
+          price={britasPrice?.cotacaoCompra}
         />
         <PriceCard
           title='Bitcoins'
-          price={Number(bitcoinsPrice.buy)}
+          price={Number(bitcoinsPrice?.buy)}
         />
       </Grid>
     </Container>
