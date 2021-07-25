@@ -5,18 +5,19 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import Button from '@material-ui/core/Button'
+import { useAuth } from '../../hooks/useAuth'
 
-import * as S from './styles'
-
+// import * as S from './styles'
 interface SignInModalProps {
   isOpenSignInModal: boolean
   handleCIsOpenSignInModal: () => void
 }
 
 export function SignInModal ({ isOpenSignInModal, handleCIsOpenSignInModal }: SignInModalProps) {
+  const context = useAuth()
   return (
     <Dialog open={isOpenSignInModal} onClose={handleCIsOpenSignInModal} aria-labelledby="form-dialog-title">
-      <DialogTitle id="form-dialog-title">Login</DialogTitle>
+      <DialogTitle id="form-dialog-title">Login - {context.user.name}</DialogTitle>
       <DialogContent>
         <DialogContentText>
         To subscribe to this website, please enter your email address here. We will send updates

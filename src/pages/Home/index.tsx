@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react'
 // import { GetServerSideProps } from 'next'
-import Container from '@material-ui/core/Container'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import Link from '@material-ui/core/Link'
 
+import { Layout, PriceCard } from 'components'
 import { britasApi } from 'services/britas'
 import { bitcoinsApi } from 'services/bitcoins'
-import { PriceCard } from 'components'
 
 import * as S from './styles'
 
@@ -50,7 +49,7 @@ export default function Home () {
   }, [])
 
   return (
-    <S.Wrapper maxWidth='lg' component='main'>
+    <Layout>
       <S.Details item md={6}>
 
         <Typography component='h1' variant='h3' color='inherit' gutterBottom>
@@ -77,6 +76,6 @@ export default function Home () {
           price={Number(bitcoinsPrice?.buy)}
         />
       </Grid>
-    </S.Wrapper>
+    </Layout>
   )
 }

@@ -1,11 +1,13 @@
 import clsx from 'clsx'
 import { makeStyles } from '@material-ui/core/styles'
-
 import Typography from '@material-ui/core/Typography'
 import Divider from '@material-ui/core/Divider'
 import Grid from '@material-ui/core/Grid'
 import Paper from '@material-ui/core/Paper'
 import Link from '@material-ui/core/Link'
+
+import { Layout } from 'components'
+
 import * as S from './styles'
 
 const useStyles = makeStyles(theme => ({
@@ -30,7 +32,7 @@ export default function Dashboard () {
 
   return (
 
-    <S.Wrapper maxWidth='lg' component='main'>
+    <Layout>
       <Grid container spacing={3}>
         {/* Recent Deposits */}
         <Grid item xs={12} md={4} lg={4}>
@@ -90,6 +92,6 @@ export default function Dashboard () {
       </Grid>
       <br />
       <Divider />
-    </S.Wrapper>
+    </Layout>
   )
 }
