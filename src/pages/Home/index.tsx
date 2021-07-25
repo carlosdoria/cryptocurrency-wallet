@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import Link from '@material-ui/core/Link'
 
-import { Layout, PriceCard } from 'components'
+import { Layout, CurrencyQuoteCard } from 'components'
 import { britasApi } from 'services/britas'
 import { bitcoinsApi } from 'services/bitcoins'
 
@@ -67,11 +67,11 @@ export default function Home () {
       </S.Details>
 
       <Grid container spacing={5} alignItems='center' justifyContent='space-between'>
-        <PriceCard
+        <CurrencyQuoteCard
           title='Britas'
           price={britasPrice?.cotacaoCompra}
         />
-        <PriceCard
+        <CurrencyQuoteCard
           title='Bitcoins'
           price={Number(bitcoinsPrice?.buy)}
         />

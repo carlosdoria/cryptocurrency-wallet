@@ -5,12 +5,12 @@ import Typography from '@material-ui/core/Typography'
 
 import * as S from './styles'
 
-interface PriceCardProps {
+interface CurrencyQuoteCardProps {
   title: string
   price: number
 }
 
-export function PriceCard ({ title, price }: PriceCardProps) {
+export function CurrencyQuoteCard ({ title, price }: CurrencyQuoteCardProps) {
 
   return (
     <Grid item key={title} xs={12} sm={title === 'Enterprise' ? 12 : 6} md={4}>
