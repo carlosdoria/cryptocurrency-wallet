@@ -50,7 +50,7 @@ export default function Home () {
   }, [])
 
   return (
-    <Container maxWidth='lg' component='main'>
+    <S.Wrapper maxWidth='lg' component='main'>
       <S.Details item md={6}>
 
         <Typography component='h1' variant='h3' color='inherit' gutterBottom>
@@ -77,6 +77,6 @@ export default function Home () {
           price={Number(bitcoinsPrice?.buy)}
         />
       </Grid>
-    </Container>
+    </S.Wrapper>
   )
 }
