@@ -3,17 +3,20 @@ import Image from 'next/image'
 import Link from 'next/link'
 import Button from '@material-ui/core/Button'
 
+import { useAuth } from 'hooks/useAuth'
 import { SignInModal } from 'components/SignInModal'
 import { SignUpModal } from 'components/SignUpModal'
 
 import * as S from './styles'
 
 export function Header () {
+  const context = useAuth()
   const [ isOpenSignInModal, setIsOpenSignInModal ] = useState(false)
   const [ isOpenSignUpModal, setIsOpenSignUpModal ] = useState(false)
 
-  const handleCIsOpenSignInModal = () => {
-    setIsOpenSignInModal(!isOpenSignInModal)
+  async function handleCIsOpenSignInModal () {
+    await context.signInWithGoogle()
+    // setIsOpenSignInModal(!isOpenSignInModal)
   }
 
   const handleCIsOpenSignUpModal = () => {
@@ -29,13 +32,24 @@ export function Header () {
           </Link>
         </S.Logo>
 
+        {context.user.name &&
         <nav>
-          <S.NavLink variant="button" color="textPrimary" onClick={handleCIsOpenSignInModal}>
-            Login
+          <S.NavLink
+            variant="button"
+            color="textPrimary"
+          >
+            <Link href='/dashboard'>
+              Dashboard
+            </Link>
           </S.NavLink>
         </nav>
-        <Button href="#" color="secondary" variant="outlined" onClick={handleCIsOpenSignUpModal}>
-          SignUp
+        }
+        <Button href="#" color="secondary" variant="outlined" onClick={handleCIsOpenSignInModal}>
+          {context.user.name ?
+            context.user.name
+            :
+            'Entrar'
+          }
         </Button>
       </S.Bar>
 
