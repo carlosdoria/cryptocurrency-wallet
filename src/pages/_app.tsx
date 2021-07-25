@@ -1,6 +1,7 @@
 // import App from "next/app";
 import { ThemeProvider } from '@material-ui/core'
 import { Header } from 'components'
+import { AuthProvider } from 'hooks/useAuth'
 import { AppProps /* , AppContext */ } from 'next/app'
 import Head from 'next/head'
 // import { ThemeProvider } from '@material-ui/core/styles';
@@ -30,8 +31,10 @@ function MyApp ({ Component, pageProps }: AppProps) {
       </Head>
       <GlobalStyles />
       <ThemeProvider theme={theme}>
-        <Header/>
-        <Component {...pageProps} />
+        <AuthProvider>
+          <Header/>
+          <Component {...pageProps} />
+        </AuthProvider>
       </ThemeProvider>
     </>
   )
