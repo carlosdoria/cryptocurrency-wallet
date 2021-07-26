@@ -1,3 +1,4 @@
+import { useRouter } from 'next/dist/client/router'
 import { createContext, ReactNode, useContext, useState, useEffect } from 'react'
 import { auth, database, firebase } from '../services/firebase'
 
@@ -22,6 +23,7 @@ interface IUser {
 const AuthContext = createContext({} as IAuthContext)
 
 export function AuthProvider ({ children }: AuthProviderProps) {
+  const route = useRouter()
   const [ user, setUser ] = useState<IUser>({} as IUser)
 
   async function signInWithGoogle () {
@@ -30,20 +32,21 @@ export function AuthProvider ({ children }: AuthProviderProps) {
 
       const response = await auth.signInWithPopup(provider)
 
-      if (response.user) {
+      if (!response.user) throw new Error('Missing information from Google Acconunt!')
 
-        const { displayName, uid } = response.user
+      const { displayName, uid } = response.user
 
-        if (!displayName) {
-          throw new Error('Missing information from Google Acconunt!')
-        }
+      if (!displayName) throw new Error('Missing \'displayName\' information from Google Acconunt!')
 
-        const foundUser = await findUserFirebase(uid)
+      const foundUser = await findUserFirebase(uid)
 
-        if (foundUser) return
-
-        await createUserFirebase(displayName, uid)
+      if (foundUser) {
+        route.push('/dashboard')
+        return
       }
+
+      await createUserFirebase(displayName, uid)
+      route.push('/dashboard')
 
     } catch (error) {
       console.log(error)
