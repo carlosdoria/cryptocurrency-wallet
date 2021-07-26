@@ -7,7 +7,7 @@ import * as S from './styles'
 
 interface CurrencyQuoteCardProps {
   title: string
-  price: number
+  price: number | undefined
 }
 
 export function CurrencyQuoteCard ({ title, price }: CurrencyQuoteCardProps) {
@@ -21,18 +21,22 @@ export function CurrencyQuoteCard ({ title, price }: CurrencyQuoteCardProps) {
           subheaderTypographyProps={{ align: 'center' }}
         />
         <S.CardContainer>
-          <Typography component="h1" variant="subtitle1" align="center">
-            Cotação de compra
+          <Typography component="h2" variant="h5" align="center">
+            { price === undefined ?
+              'Cotação não realizada'
+              :
+              'Cotação de compra'
+            }
           </Typography>
 
           <Typography component="h2" variant="h3" color="textPrimary">
-            { price ?
+            { price === undefined ?
+              'R$ 0,00'
+              :
               Intl.NumberFormat('pt-br', {
                 style: 'currency',
                 currency: 'BRL'
               }).format(price)
-              :
-              'R$ 0,00'
             }
           </Typography>
 
