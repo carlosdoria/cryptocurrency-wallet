@@ -9,10 +9,6 @@ import * as S from './styles'
 export function Header () {
   const context = useAuth()
 
-  async function handleCIsOpenSignInModal () {
-    await context.signInWithGoogle()
-  }
-
   return (
     <S.Header position="static" color="primary" elevation={0}>
       <S.Bar>
@@ -37,7 +33,7 @@ export function Header () {
         </nav>
         }
         {context.user.name ?
-          <Button href="#" color="secondary" variant="outlined">
+          <Button href="#" color="secondary" variant="outlined" onClick={context.signOut}>
             {context.user.name}
           </Button>
           :

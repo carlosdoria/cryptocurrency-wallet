@@ -8,6 +8,7 @@ interface AuthProviderProps {
 interface IAuthContext {
   user: IUser
   signInWithGoogle: () => Promise<void>
+  signOut: () => Promise<void>
 }
 
 interface IUser {
@@ -46,6 +47,16 @@ export function AuthProvider ({ children }: AuthProviderProps) {
 
     } catch (error) {
       console.log(error)
+    }
+  }
+
+  async function signOut () {
+    try {
+      auth.signOut()
+      setUser({} as IUser)
+      console.log('Signout Succesfull')
+    } catch (error) {
+      console.log('Signout Failed')
     }
   }
 
@@ -103,6 +114,7 @@ export function AuthProvider ({ children }: AuthProviderProps) {
     <AuthContext.Provider value={{
       user,
       signInWithGoogle,
+      signOut,
     }}>
       {children}
     </AuthContext.Provider>
