@@ -1,26 +1,16 @@
-import { useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import Button from '@material-ui/core/Button'
 
 import { useAuth } from 'hooks/useAuth'
-import { SignInModal } from 'components/SignInModal'
-import { SignUpModal } from 'components/SignUpModal'
 
 import * as S from './styles'
 
 export function Header () {
   const context = useAuth()
-  const [ isOpenSignInModal, setIsOpenSignInModal ] = useState(false)
-  const [ isOpenSignUpModal, setIsOpenSignUpModal ] = useState(false)
 
   async function handleCIsOpenSignInModal () {
     await context.signInWithGoogle()
-    // setIsOpenSignInModal(!isOpenSignInModal)
-  }
-
-  const handleCIsOpenSignUpModal = () => {
-    setIsOpenSignUpModal(!isOpenSignUpModal)
   }
 
   return (
@@ -28,33 +18,34 @@ export function Header () {
       <S.Bar>
         <S.Logo variant="h6" color="inherit" noWrap >
           <Link href='/'>
-            <Image src='/logo.png' width={220} height={50} alt='Logo'/>
+            <span>
+              <Image src='/logo.png' width={220} height={50} alt='Logo'/>
+            </span>
           </Link>
         </S.Logo>
 
         {context.user.name &&
         <nav>
-          <S.NavLink
-            variant="button"
-            color="textPrimary"
-          >
-            <Link href='/dashboard'>
+          <Link href='/dashboard'>
+            <S.NavLink
+              variant="button"
+              color="textPrimary"
+            >
               Dashboard
-            </Link>
-          </S.NavLink>
+            </S.NavLink>
+          </Link>
         </nav>
         }
-        <Button href="#" color="secondary" variant="outlined" onClick={handleCIsOpenSignInModal}>
-          {context.user.name ?
-            context.user.name
-            :
-            'Entrar'
-          }
-        </Button>
+        {context.user.name ?
+          <Button href="#" color="secondary" variant="outlined">
+            {context.user.name}
+          </Button>
+          :
+          <Button href="#" color="secondary" variant="outlined" onClick={context.signInWithGoogle}>
+          Entrar
+          </Button>
+        }
       </S.Bar>
-
-      <SignInModal isOpenSignInModal={isOpenSignInModal} handleCIsOpenSignInModal={handleCIsOpenSignInModal}/>
-      <SignUpModal isOpenSignUpModal={isOpenSignUpModal} handleCIsOpenSignUpModal={handleCIsOpenSignUpModal}/>
     </S.Header>
   )
 }
