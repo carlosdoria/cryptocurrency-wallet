@@ -1,14 +1,12 @@
 import styled from 'styled-components'
-import Container from '@material-ui/core/Container'
 
-interface IContainer {
-  component: string
-}
+export const Section = styled.section`
+  + section {
+    margin-top: 3.8rem;
+  }
 
-export const Wrapper = styled(Container)<IContainer>`
-  padding-top: 3rem;
-
-  @media screen and (min-width: 600px) {
-    padding-top: 7rem;
+  h1 {
+    margin-bottom: 1.6rem;
+    font-size: 2.2rem;
   }
 `

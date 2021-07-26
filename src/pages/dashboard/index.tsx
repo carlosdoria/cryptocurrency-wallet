@@ -8,29 +8,47 @@ import { useEffect } from 'react'
 import { auth } from 'services/firebase'
 
 import * as S from './styles'
+import { useAuth } from 'hooks/useAuth'
+import { useCurrencies } from 'hooks/useCurrencies'
 
 export default function Dashboard () {
   const router = useRouter()
+  const context = useAuth()
+  const { bitcoinsPrice, britasPrice, getBitcoinsPrice, getBritasPrice } = useCurrencies()
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
       if (!user) router.push('/')
     })
+    if (bitcoinsPrice === undefined) getBitcoinsPrice()
+    if (britasPrice === undefined) getBritasPrice()
 
     return () => {
       unsubscribe()
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return (
     <Layout>
-      <Grid container spacing={3}>
-        {/* Recent Deposits */}
-        <UserCurrencyCard title='Reais' value={10} />
-        <UserCurrencyCard title='Bitcoins' value={10} />
-        <UserCurrencyCard title='Britas' value={10} />
-      </Grid>
-      <br />
-      <Divider />
+      <S.Section>
+        <h1>Minha carteira</h1>
+        <Grid container spacing={3}>
+          <UserCurrencyCard title='Reais' value={context.user.real} />
+          <UserCurrencyCard title='Britas' value={context.user.britas} />
+          <UserCurrencyCard title='Bitcoins' value={context.user.bitcoins} />
+        </Grid>
+        <br />
+        <Divider />
+      </S.Section>
+
+      <S.Section>
+        <h1>Cocação</h1>
+        <Grid container spacing={3}>
+          <UserCurrencyCard title='Britas' value={britasPrice?.cotacaoCompra} />
+          <UserCurrencyCard title='Bitcoins' value={Number(bitcoinsPrice?.buy)} />
+        </Grid>
+      </S.Section>
+
     </Layout>
   )
 }
