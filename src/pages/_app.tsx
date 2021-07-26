@@ -2,6 +2,7 @@
 import { ThemeProvider } from '@material-ui/core'
 import { Header } from 'components'
 import { AuthProvider } from 'hooks/useAuth'
+import { CurrenciesProvider } from 'hooks/useCurrencies'
 import { AppProps /* , AppContext */ } from 'next/app'
 import Head from 'next/head'
 // import { ThemeProvider } from '@material-ui/core/styles';
@@ -32,8 +33,10 @@ function MyApp ({ Component, pageProps }: AppProps) {
       <GlobalStyles />
       <ThemeProvider theme={theme}>
         <AuthProvider>
-          <Header/>
-          <Component {...pageProps} />
+          <CurrenciesProvider>
+            <Header/>
+            <Component {...pageProps} />
+          </CurrenciesProvider>
         </AuthProvider>
       </ThemeProvider>
     </>

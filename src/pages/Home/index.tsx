@@ -1,46 +1,20 @@
-import { useEffect, useState } from 'react'
-// import { GetServerSideProps } from 'next'
+import { useEffect } from 'react'
 import Typography from '@material-ui/core/Typography'
 import Grid from '@material-ui/core/Grid'
 import Link from '@material-ui/core/Link'
 
+import { useCurrencies } from 'hooks/useCurrencies'
 import { Layout, CurrencyQuoteCard } from 'components'
-import { britasApi } from 'services/britas'
-import { bitcoinsApi } from 'services/bitcoins'
 
 import * as S from './styles'
 
-interface IBritasPrice {
-  cotacaoCompra: number
-  cotacaoVenda: number
-  dataHoraCotacao: string
-}
-
-interface IBitcoinsPrice {
-  buy: string
-  sell: string
-}
-
 export default function Home () {
-  const [ britasPrice, setBritasPrice ] = useState<IBritasPrice>({} as IBritasPrice)
-  const [ bitcoinsPrice, setBitcoinsPrice ] = useState<IBitcoinsPrice>({} as IBitcoinsPrice)
-
-  const date = new Intl.DateTimeFormat('en-US', {
-    month: '2-digit',
-    day: '2-digit',
-    year: 'numeric'
-  }).format(new Date())
-  const formattedDate = date.replace(/\//g, '-')
-
-  async function getBritasPrice () {
-    const { data } = await britasApi.get(`/CotacaoDolarDia(dataCotacao=@dataCotacao)?@dataCotacao='${formattedDate}'`)
-    setBritasPrice(data.value[ 0 ])
-  }
-
-  async function getBitcoinsPrice () {
-    const { data } = await bitcoinsApi.get('/BTC/ticker/')
-    setBitcoinsPrice(data.ticker)
-  }
+  const {
+    britasPrice,
+    bitcoinsPrice,
+    getBritasPrice,
+    getBitcoinsPrice
+  } = useCurrencies()
 
   useEffect(() => {
     getBritasPrice()
