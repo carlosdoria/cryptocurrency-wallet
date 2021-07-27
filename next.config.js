@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
 module.exports = {
   reactStrictMode: true,
-  pageExtensions: [ 'tsx', 'api.ts' ],
+  pageExtensions: [ 'page.tsx', 'api.ts' ],
 }
