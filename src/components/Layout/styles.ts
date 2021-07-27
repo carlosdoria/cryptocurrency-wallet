@@ -6,9 +6,10 @@ interface IContainer {
 }
 
 export const Wrapper = styled(Container)<IContainer>`
-  padding-top: 3rem;
+  padding: 3rem 0;
 
   @media screen and (min-width: 600px) {
-    padding-top: 7rem;
+    padding: 7rem 0;
+
   }
 `
