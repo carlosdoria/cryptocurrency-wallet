@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
 import DialogActions from '@material-ui/core/DialogActions'
@@ -5,18 +6,15 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import TextField from '@material-ui/core/TextField'
 import { useAuth } from 'hooks/useAuth'
-import { useState, useRef } from 'react'
 import { useCurrencies } from 'hooks/useCurrencies'
 
 interface Props {
-  transaction: string
   title: string
   currencyFormat: string
 }
 
-export function BuyCurrencyModal ({ transaction, title, currencyFormat }: Props) {
-  const inputRef = useRef()
-  const { user, updateUserFirebase, findUserFirebase } = useAuth()
+export function BuyCurrencyModal ({ title, currencyFormat }: Props) {
+  const { user, updateUserFirebase, findUserFirebase, createTransactionFirebase } = useAuth()
   const { bitcoinsPrice, britasPrice } = useCurrencies()
 
   const [ open, setOpen ] = useState(false)
@@ -46,7 +44,7 @@ export function BuyCurrencyModal ({ transaction, title, currencyFormat }: Props)
 
     const currentValueInWrallet = title === 'Bitcoins' ? user.bitcoins : user.britas
 
-    const purchasedValue = (currencyAmount / currencyQuote) + currentValueInWrallet
+    const valuePurchased = (currencyAmount / currencyQuote) + currentValueInWrallet
 
     const amountSpent = user.real - currencyAmount
 
@@ -55,10 +53,20 @@ export function BuyCurrencyModal ({ transaction, title, currencyFormat }: Props)
       currencySold: 'real',
       amountSpent,
       purchasedCurrency: title.toLowerCase(),
-      purchasedValue
+      valuePurchased
+    }
+
+    const newTransaction = {
+      id: user.id,
+      title: 'Compra',
+      currencySold: 'real',
+      amountSpent: currencyAmount,
+      currencyPurchased: title.toLowerCase(),
+      valuePurchased: currencyAmount / currencyQuote
     }
 
     await updateUserFirebase(updateProps)
+    await createTransactionFirebase(newTransaction)
     await findUserFirebase(user.id)
     handleClose()
   }
@@ -66,7 +74,7 @@ export function BuyCurrencyModal ({ transaction, title, currencyFormat }: Props)
   return (
     <div>
       <Button color="secondary" variant="outlined" onClick={handleOpen}>
-        {transaction === 'sell' ? 'Vender' : 'Comprar' }
+        Comprar
       </Button>
       <Dialog
         open={open}
@@ -74,14 +82,13 @@ export function BuyCurrencyModal ({ transaction, title, currencyFormat }: Props)
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{transaction === 'sell' ? 'Vender' : 'Comprar' } {title}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">Compra de {title}</DialogTitle>
         <DialogContent>
           {/* <DialogContentText id="alert-dialog-description">
             Let Google help apps determine location. This means sending anonymous location data to
             Google, even when no apps are running.
           </DialogContentText> */}
           <TextField
-            inputRef={inputRef}
             id="outlined-full-width"
             label="Reais"
             value={currencyAmount}
@@ -121,7 +128,7 @@ export function BuyCurrencyModal ({ transaction, title, currencyFormat }: Props)
             Cancelar
           </Button>
           <Button onClick={buyCurrency} color="secondary" autoFocus>
-            {transaction === 'sell' ? 'Vender' : 'Comprar' }
+            Comprar
           </Button>
         </DialogActions>
       </Dialog>

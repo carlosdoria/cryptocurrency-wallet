@@ -14,7 +14,7 @@ interface Props {
 }
 
 export function SellCurrencyModal ({ transaction, title }: Props) {
-  const { user, updateUserFirebase, findUserFirebase } = useAuth()
+  const { user, updateUserFirebase, findUserFirebase, createTransactionFirebase } = useAuth()
   const { bitcoinsPrice, britasPrice } = useCurrencies()
 
   const [ open, setOpen ] = useState(false)
@@ -43,19 +43,29 @@ export function SellCurrencyModal ({ transaction, title }: Props) {
       return
     }
 
-    const amountSpent = amountCurrencyInWallet - currencyAmount
+    const valuePurchased = user.real + currencyAmount * currencyQuote
 
-    const purchasedValue = user.real + currencyAmount * currencyQuote
+    const amountSpent = amountCurrencyInWallet - currencyAmount
 
     const updateProps = {
       id: user.id,
       currencySold: title.toLowerCase(),
       amountSpent,
       purchasedCurrency: 'real',
-      purchasedValue
+      valuePurchased
+    }
+
+    const newTransaction = {
+      id: user.id,
+      title: 'Venda',
+      currencySold: title.toLowerCase(),
+      amountSpent: currencyAmount,
+      currencyPurchased: 'real',
+      valuePurchased: currencyAmount * currencyQuote
     }
 
     await updateUserFirebase(updateProps)
+    await createTransactionFirebase(newTransaction)
     await findUserFirebase(user.id)
     handleClose()
   }

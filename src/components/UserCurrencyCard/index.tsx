@@ -32,7 +32,7 @@ export function UserCurrencyCard ({ title, currencyFormat, value, transaction = 
           }
         </Typography>
         {transaction !== '' && transaction === 'buy' &&
-          <BuyCurrencyModal transaction={transaction} title={title} currencyFormat={currencyFormat}/>
+          <BuyCurrencyModal title={title} currencyFormat={currencyFormat}/>
         }
         {transaction !== '' && transaction === 'sell' &&
           <SellCurrencyModal transaction={transaction} title={title}/>
