@@ -1,15 +1,17 @@
 import Grid from '@material-ui/core/Grid'
 // import Paper from '@material-ui/core/Paper'
-import Link from '@material-ui/core/Link'
 import Typography from '@material-ui/core/Typography'
+import { TransactionModal } from '../TransactionModal'
 import * as S from './styles'
 
 interface UserCurrencyCardProps {
   title: string
+  currencyFormat: string
   value: number | undefined
+  transaction?: string
 }
 
-export function UserCurrencyCard ({ title, value }: UserCurrencyCardProps) {
+export function UserCurrencyCard ({ title, currencyFormat, value, transaction = '' }: UserCurrencyCardProps) {
 
   return (
     <Grid item xs={12} md={4} lg={4}>
@@ -21,15 +23,15 @@ export function UserCurrencyCard ({ title, value }: UserCurrencyCardProps) {
           { value ?
             Intl.NumberFormat('pt-br', {
               style: 'currency',
-              currency: 'BRL'
+              currency: currencyFormat
             }).format(value)
             :
-            'R$ 0,00'
+            '0,00'
           }
         </Typography>
-        {/* <Typography color="textSecondary" className={classes.depositContext}> //flex: 1
-          on 15 March, 2019
-        </Typography> */}
+        {transaction &&
+          <TransactionModal transaction={transaction} title={title}/>
+        }
         {/* <div>
           <Link color="primary" href="#">
           View balance

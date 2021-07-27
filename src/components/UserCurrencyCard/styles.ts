@@ -7,4 +7,9 @@ export const Content = styled(Paper)`
   display: flex;
   flex-direction: column;
   overflow: auto;
+
+  button {
+    margin-top: 1rem;
+  }
 `
+
