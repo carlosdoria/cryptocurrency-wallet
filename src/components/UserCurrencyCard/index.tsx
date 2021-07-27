@@ -35,7 +35,7 @@ export function UserCurrencyCard ({ title, currencyFormat, value, transaction = 
           <BuyCurrencyModal transaction={transaction} title={title} currencyFormat={currencyFormat}/>
         }
         {transaction !== '' && transaction === 'sell' &&
-          <SellCurrencyModal transaction={transaction} title={title} currencyFormat={currencyFormat}/>
+          <SellCurrencyModal transaction={transaction} title={title}/>
         }
         {/* <div>
           <Link color="primary" href="#">

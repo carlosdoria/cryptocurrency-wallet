@@ -11,10 +11,9 @@ import { useCurrencies } from 'hooks/useCurrencies'
 interface Props {
   transaction: string
   title: string
-  currencyFormat: string
 }
 
-export function SellCurrencyModal ({ transaction, title, currencyFormat }: Props) {
+export function SellCurrencyModal ({ transaction, title }: Props) {
   const { user, updateUserFirebase, findUserFirebase } = useAuth()
   const { bitcoinsPrice, britasPrice } = useCurrencies()
 
