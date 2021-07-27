@@ -18,7 +18,9 @@ export default function Dashboard () {
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
-      if (!user) router.push('/')
+      if (!user) {
+        router.push('/')
+      }
     })
     if (bitcoinsPrice === undefined) getBitcoinsPrice()
     if (britasPrice === undefined) getBritasPrice()
@@ -33,19 +35,29 @@ export default function Dashboard () {
       <S.Section>
         <h1>Minha carteira</h1>
         <Grid container spacing={3}>
-          <UserCurrencyCard title='Reais' value={context.user.real} />
-          <UserCurrencyCard title='Britas' value={context.user.britas} />
-          <UserCurrencyCard title='Bitcoins' value={context.user.bitcoins} />
+          <UserCurrencyCard title='Reais' value={context.user.real} currencyFormat='BRL'/>
+          <UserCurrencyCard title='Britas' value={context.user.britas} currencyFormat='USD'/>
+          <UserCurrencyCard title='Bitcoins' value={context.user.bitcoins} currencyFormat='XBT'/>
         </Grid>
         <br />
         <Divider />
       </S.Section>
 
       <S.Section>
-        <h1>Cocação</h1>
+        <h1>Cotação de compra</h1>
         <Grid container spacing={3}>
-          <UserCurrencyCard title='Britas' value={britasPrice?.cotacaoCompra} />
-          <UserCurrencyCard title='Bitcoins' value={Number(bitcoinsPrice?.buy)} />
+          <UserCurrencyCard title='Britas' value={britasPrice?.cotacaoCompra} currencyFormat='USD' transaction='Comprar'/>
+          <UserCurrencyCard title='Bitcoins' value={Number(bitcoinsPrice?.buy)} currencyFormat='XBT' transaction='Comprar'/>
+        </Grid>
+        <br />
+        <Divider />
+      </S.Section>
+
+      <S.Section>
+        <h1>Cotação de venda</h1>
+        <Grid container spacing={3}>
+          <UserCurrencyCard title='Britas' value={britasPrice?.cotacaoVenda} currencyFormat='USD' transaction='Vender'/>
+          <UserCurrencyCard title='Bitcoins' value={Number(bitcoinsPrice?.sell)} currencyFormat='XBT' transaction='Vender'/>
         </Grid>
       </S.Section>
 

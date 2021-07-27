@@ -6,7 +6,7 @@ export const Section = styled.section`
   }
 
   h1 {
-    margin-bottom: 1.6rem;
+    margin-bottom: 1rem;
     font-size: 2.2rem;
   }
 `
