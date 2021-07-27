@@ -10,6 +10,8 @@ interface IAuthContext {
   user: IUser
   signInWithGoogle: () => Promise<void>
   signOut: () => Promise<void>
+  findUserFirebase: (id: string) => Promise<void>
+  updateUserFirebase: (id: string, amountSpent: number, currency: string, purchasedValue: number) => Promise<void>
 }
 
 interface IUser {
@@ -88,9 +90,22 @@ export function AuthProvider ({ children }: AuthProviderProps) {
       britas: 0,
       bitcoins: 0,
     }
-
     await roomRef.set(newUser)
     setUser(newUser)
+  }
+
+  async function updateUserFirebase (id: string, amountSpent: number, currency: string, purchasedValue: number) {
+    const userUpdate = {
+      real: amountSpent,
+      [ currency ]: purchasedValue
+    }
+    try {
+      const dbRef = await firebase.database().ref('users')
+      const user = await dbRef.child(id)
+      user.update(userUpdate)
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   useEffect(() => {
@@ -118,6 +133,8 @@ export function AuthProvider ({ children }: AuthProviderProps) {
       user,
       signInWithGoogle,
       signOut,
+      findUserFirebase,
+      updateUserFirebase,
     }}>
       {children}
     </AuthContext.Provider>
