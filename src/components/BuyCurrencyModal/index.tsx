@@ -7,10 +7,6 @@ import TextField from '@material-ui/core/TextField'
 import { useAuth } from 'hooks/useAuth'
 import { useState, useRef } from 'react'
 import { useCurrencies } from 'hooks/useCurrencies'
-import Input from '@material-ui/core/Input'
-import InputLabel from '@material-ui/core/InputLabel'
-import InputAdornment from '@material-ui/core/InputAdornment'
-import FormControl from '@material-ui/core/FormControl'
 
 interface Props {
   transaction: string
@@ -26,7 +22,7 @@ export function BuyCurrencyModal ({ transaction, title, currencyFormat }: Props)
   const [ open, setOpen ] = useState(false)
   const [ currencyAmount, setCurrencyAmount ] = useState<number>(0)
 
-  const currency: number = title === 'Bitcoins' ? Number(bitcoinsPrice?.buy) : Number(britasPrice?.cotacaoCompra)
+  const currencyQuote: number = title === 'Bitcoins' ? Number(bitcoinsPrice?.buy) : Number(britasPrice?.cotacaoCompra)
 
   const handleOpen = () => {
     setOpen(true)
@@ -50,11 +46,19 @@ export function BuyCurrencyModal ({ transaction, title, currencyFormat }: Props)
 
     const currentValueInWrallet = title === 'Bitcoins' ? user.bitcoins : user.britas
 
-    const purchasedValue = (currencyAmount / currency) + currentValueInWrallet
+    const purchasedValue = (currencyAmount / currencyQuote) + currentValueInWrallet
 
     const amountSpent = user.real - currencyAmount
 
-    await updateUserFirebase(user.id, amountSpent, title.toLowerCase(), purchasedValue)
+    const updateProps = {
+      id: user.id,
+      currencySold: 'real',
+      amountSpent,
+      purchasedCurrency: title.toLowerCase(),
+      purchasedValue
+    }
+
+    await updateUserFirebase(updateProps)
     await findUserFirebase(user.id)
     handleClose()
   }
@@ -70,7 +74,7 @@ export function BuyCurrencyModal ({ transaction, title, currencyFormat }: Props)
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{transaction} {title}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{transaction === 'sell' ? 'Vender' : 'Comprar' } {title}</DialogTitle>
         <DialogContent>
           {/* <DialogContentText id="alert-dialog-description">
             Let Google help apps determine location. This means sending anonymous location data to
@@ -101,7 +105,7 @@ export function BuyCurrencyModal ({ transaction, title, currencyFormat }: Props)
                 style: 'currency',
                 currency: currencyFormat,
                 minimumFractionDigits: currencyFormat === 'BRL' ? 2 : 8
-              }).format(currencyAmount / currency)
+              }).format(currencyAmount / currencyQuote)
             }
             disabled
             placeholder="0"
@@ -111,30 +115,6 @@ export function BuyCurrencyModal ({ transaction, title, currencyFormat }: Props)
             }}
             // variant="outlined"
           />
-          <FormControl>
-            <InputLabel htmlFor="standard-adornment-amount">Reais</InputLabel>
-            <Input
-              id="standard-adornment-amount"
-              value={currencyAmount}
-              onChange={e => setCurrencyAmount(Number(e.target.value))}
-              type='number'
-              startAdornment={<InputAdornment position="start">R$</InputAdornment>}
-            />
-          </FormControl>
-          <FormControl>
-            <InputLabel htmlFor="standard-adornment-amount">{title}</InputLabel>
-            <Input
-              id="standard-adornment-amount"
-              value={
-                Intl.NumberFormat('pt-br', {
-                  style: 'currency',
-                  currency: currencyFormat,
-                  minimumFractionDigits: currencyFormat === 'BRL' ? 2 : 8
-                }).format(currencyAmount / currency)
-              }
-              disabled
-            />
-          </FormControl>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="secondary">
