@@ -11,7 +11,7 @@ interface IUpdateProps {
   currencySold: string,
   amountSpent: number,
   purchasedCurrency: string,
-  purchasedValue: number
+  valuePurchased: number
 }
 
 interface IUser {
@@ -22,18 +22,36 @@ interface IUser {
   bitcoins: number
 }
 
+interface ITransactionProps {
+  id: string
+  title: string
+  currencySold: string
+  amountSpent: number
+  currencyPurchased: string
+  valuePurchased: number
+}
+
 interface IAuthContext {
   user: IUser
   signInWithGoogle: () => Promise<void>
   signOut: () => Promise<void>
   findUserFirebase: (id: string) => Promise<void>
+  getTransactionsFirebase: (id: string) => Promise<void>
   updateUserFirebase: ({
     id,
     currencySold,
     amountSpent,
     purchasedCurrency,
-    purchasedValue
+    valuePurchased
   }: IUpdateProps) => Promise<void>
+  createTransactionFirebase: ({
+    id,
+    title,
+    currencySold,
+    amountSpent,
+    currencyPurchased,
+    valuePurchased
+  }: ITransactionProps) => Promise<void>
 }
 
 const AuthContext = createContext({} as IAuthContext)
@@ -108,21 +126,45 @@ export function AuthProvider ({ children }: AuthProviderProps) {
     setUser(newUser)
   }
 
-  async function updateUserFirebase ({
-    id,
-    currencySold,
-    amountSpent,
-    purchasedCurrency,
-    purchasedValue,
-  }: IUpdateProps) {
+  async function updateUserFirebase ({ id, currencySold, amountSpent, purchasedCurrency, valuePurchased, }: IUpdateProps){
     const userUpdate = {
       [ currencySold ]: amountSpent,
-      [ purchasedCurrency ]: purchasedValue
+      [ purchasedCurrency ]: valuePurchased
     }
     try {
       const dbRef = await firebase.database().ref('users')
       const user = await dbRef.child(id)
       user.update(userUpdate)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  async function createTransactionFirebase ({ id, title, currencySold, amountSpent, currencyPurchased, valuePurchased }: ITransactionProps) {
+    const roomRef = database.ref('transactions').child(id)
+
+    const newTransaction = {
+      id,
+      title,
+      currencySold,
+      amountSpent,
+      currencyPurchased,
+      valuePurchased,
+      date: new Date(),
+    }
+    await roomRef.push(newTransaction)
+  }
+
+  async function getTransactionsFirebase (id: string) {
+    try {
+      const dbRef = await firebase.database().ref()
+      const foundUser = await dbRef.child('transactions').child(id).get()
+      if (foundUser.exists()) {
+        console.log(foundUser.val())
+        // return foundUser.val()
+      } else {
+        console.log('No data transactions available')
+      }
     } catch (error) {
       console.error(error)
     }
@@ -155,6 +197,8 @@ export function AuthProvider ({ children }: AuthProviderProps) {
       signOut,
       findUserFirebase,
       updateUserFirebase,
+      createTransactionFirebase,
+      getTransactionsFirebase,
     }}>
       {children}
     </AuthContext.Provider>
