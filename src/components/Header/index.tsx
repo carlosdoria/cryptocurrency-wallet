@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import Button from '@material-ui/core/Button'
+import { FiLogOut } from 'react-icons/fi'
 
 import { useAuth } from 'hooks/useAuth'
 
@@ -34,11 +35,11 @@ export function Header () {
         }
         {context.user.name ?
           <Button href="#" color="secondary" variant="outlined" onClick={context.signOut}>
-            {context.user.name}
+            {context.user.name} <FiLogOut size={18} style={{ marginLeft: '5px' }}/>
           </Button>
           :
           <Button href="#" color="secondary" variant="outlined" onClick={context.signInWithGoogle}>
-          Entrar
+            Entrar
           </Button>
         }
       </S.Bar>
