@@ -6,12 +6,12 @@ interface AuthProviderProps {
   children: ReactNode
 }
 
-interface IAuthContext {
-  user: IUser
-  signInWithGoogle: () => Promise<void>
-  signOut: () => Promise<void>
-  findUserFirebase: (id: string) => Promise<void>
-  updateUserFirebase: (id: string, amountSpent: number, currency: string, purchasedValue: number) => Promise<void>
+interface IUpdateProps {
+  id: string,
+  currencySold: string,
+  amountSpent: number,
+  purchasedCurrency: string,
+  purchasedValue: number
 }
 
 interface IUser {
@@ -20,6 +20,20 @@ interface IUser {
   real: number
   britas: number
   bitcoins: number
+}
+
+interface IAuthContext {
+  user: IUser
+  signInWithGoogle: () => Promise<void>
+  signOut: () => Promise<void>
+  findUserFirebase: (id: string) => Promise<void>
+  updateUserFirebase: ({
+    id,
+    currencySold,
+    amountSpent,
+    purchasedCurrency,
+    purchasedValue
+  }: IUpdateProps) => Promise<void>
 }
 
 const AuthContext = createContext({} as IAuthContext)
@@ -94,10 +108,16 @@ export function AuthProvider ({ children }: AuthProviderProps) {
     setUser(newUser)
   }
 
-  async function updateUserFirebase (id: string, amountSpent: number, currency: string, purchasedValue: number) {
+  async function updateUserFirebase ({
+    id,
+    currencySold,
+    amountSpent,
+    purchasedCurrency,
+    purchasedValue,
+  }: IUpdateProps) {
     const userUpdate = {
-      real: amountSpent,
-      [ currency ]: purchasedValue
+      [ currencySold ]: amountSpent,
+      [ purchasedCurrency ]: purchasedValue
     }
     try {
       const dbRef = await firebase.database().ref('users')
