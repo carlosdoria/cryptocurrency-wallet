@@ -46,8 +46,8 @@ export default function Dashboard () {
       <S.Section>
         <h1>Cotação de compra</h1>
         <Grid container spacing={3}>
-          <UserCurrencyCard title='Britas' value={britasPrice?.cotacaoCompra} currencyFormat='USD' transaction='Comprar'/>
-          <UserCurrencyCard title='Bitcoins' value={Number(bitcoinsPrice?.buy)} currencyFormat='XBT' transaction='Comprar'/>
+          <UserCurrencyCard title='Britas' value={britasPrice?.cotacaoCompra} currencyFormat='USD' transaction='buy'/>
+          <UserCurrencyCard title='Bitcoins' value={Number(bitcoinsPrice?.buy)} currencyFormat='XBT' transaction='buy'/>
         </Grid>
         <br />
         <Divider />
@@ -56,8 +56,8 @@ export default function Dashboard () {
       <S.Section>
         <h1>Cotação de venda</h1>
         <Grid container spacing={3}>
-          <UserCurrencyCard title='Britas' value={britasPrice?.cotacaoVenda} currencyFormat='USD' transaction='Vender'/>
-          <UserCurrencyCard title='Bitcoins' value={Number(bitcoinsPrice?.sell)} currencyFormat='XBT' transaction='Vender'/>
+          <UserCurrencyCard title='Britas' value={britasPrice?.cotacaoVenda} currencyFormat='USD' transaction='sell'/>
+          <UserCurrencyCard title='Bitcoins' value={Number(bitcoinsPrice?.sell)} currencyFormat='XBT' transaction='sell'/>
         </Grid>
       </S.Section>
 
