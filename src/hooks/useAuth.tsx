@@ -36,7 +36,7 @@ interface IAuthContext {
   signInWithGoogle: () => Promise<void>
   signOut: () => Promise<void>
   findUserFirebase: (id: string) => Promise<void>
-  getTransactionsFirebase: (id: string) => Promise<void>
+  transactions: any
   updateUserFirebase: ({
     id,
     currencySold,
@@ -59,6 +59,7 @@ const AuthContext = createContext({} as IAuthContext)
 export function AuthProvider ({ children }: AuthProviderProps) {
   const route = useRouter()
   const [ user, setUser ] = useState<IUser>({} as IUser)
+  const [ transactions, setTransactions ] = useState<any>({})
 
   async function signInWithGoogle () {
     try {
@@ -153,6 +154,7 @@ export function AuthProvider ({ children }: AuthProviderProps) {
       date: new Date(),
     }
     await roomRef.push(newTransaction)
+    await getTransactionsFirebase(id)
   }
 
   async function getTransactionsFirebase (id: string) {
@@ -160,8 +162,7 @@ export function AuthProvider ({ children }: AuthProviderProps) {
       const dbRef = await firebase.database().ref()
       const foundUser = await dbRef.child('transactions').child(id).get()
       if (foundUser.exists()) {
-        console.log(foundUser.val())
-        // return foundUser.val()
+        setTransactions(foundUser.val())
       } else {
         console.log('No data transactions available')
       }
@@ -173,15 +174,17 @@ export function AuthProvider ({ children }: AuthProviderProps) {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
       if (user) {
-        if (user) {
-          const { displayName, uid } = user
+        const { displayName, uid } = user
 
-          if (!displayName) {
-            throw new Error('Missing information from Google Acconunt!')
-          }
-
-          findUserFirebase(uid)
+        if (!displayName) {
+          throw new Error('Missing information from Google Acconunt!')
         }
+
+        (async function () {
+          await findUserFirebase(uid)
+          await getTransactionsFirebase(uid)
+
+        })()
       }
     })
 
@@ -198,7 +201,7 @@ export function AuthProvider ({ children }: AuthProviderProps) {
       findUserFirebase,
       updateUserFirebase,
       createTransactionFirebase,
-      getTransactionsFirebase,
+      transactions,
     }}>
       {children}
     </AuthContext.Provider>

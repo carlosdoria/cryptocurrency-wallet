@@ -58,9 +58,9 @@ export function SellCurrencyModal ({ transaction, title }: Props) {
     const newTransaction = {
       id: user.id,
       title: 'Venda',
-      currencySold: title.toLowerCase(),
+      currencySold: 'real',
       amountSpent: currencyAmount,
-      currencyPurchased: 'real',
+      currencyPurchased: title.toLowerCase(),
       valuePurchased: currencyAmount * currencyQuote
     }
 

@@ -3,7 +3,7 @@ import Divider from '@material-ui/core/Divider'
 import Grid from '@material-ui/core/Grid'
 import { useRouter } from 'next/router'
 
-import { Layout, UserCurrencyCard } from 'components'
+import { Layout, UserCurrencyCard, ListTransactions } from 'components'
 import { useEffect } from 'react'
 import { auth } from 'services/firebase'
 
@@ -15,6 +15,7 @@ export default function Dashboard () {
   const router = useRouter()
   const context = useAuth()
   const { bitcoinsPrice, britasPrice, getBitcoinsPrice, getBritasPrice } = useCurrencies()
+  const { transactions } = useAuth()
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(user => {
@@ -59,6 +60,17 @@ export default function Dashboard () {
           <UserCurrencyCard title='Britas' value={britasPrice?.cotacaoVenda} currencyFormat='USD' transaction='sell'/>
           <UserCurrencyCard title='Bitcoins' value={Number(bitcoinsPrice?.sell)} currencyFormat='XBT' transaction='sell'/>
         </Grid>
+        <br />
+        <Divider />
+      </S.Section>
+      <S.Section>
+        <h1>Transações</h1>
+        <Grid container spacing={3}>
+          {transactions &&
+            <ListTransactions />
+          }
+        </Grid>
+
       </S.Section>
 
     </Layout>

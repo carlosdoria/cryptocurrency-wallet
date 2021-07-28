@@ -37,11 +37,6 @@ export function UserCurrencyCard ({ title, currencyFormat, value, transaction = 
         {transaction !== '' && transaction === 'sell' &&
           <SellCurrencyModal transaction={transaction} title={title}/>
         }
-        {/* <div>
-          <Link color="primary" href="#">
-          View balance
-          </Link>
-        </div> */}
       </S.Content>
     </Grid>
   )
