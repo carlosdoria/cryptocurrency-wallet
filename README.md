@@ -4,7 +4,7 @@
 ## Index
 
 - [About the project](#about-the-project)
-<!-- - [Deploy](#deploy) -->
+- [Deploy](#deploy)
 - [Technologies and tools used](#technologies-and-tools-used)
 - [Starting the project](#starting-the-project)
 
@@ -22,12 +22,12 @@ Digital cryptocurrency wallet.
 
 <br>
 
-<!-- ## Deploy
+## Deploy
 
 Deploy link:
-[Deploy](https://carlosdoria-portifolio.vercel.app/)
+[Deploy](https://cryptocurrency-wallet.vercel.app/)
 
-<br> -->
+<br>
 
 ## 🚀 Technologies and tools used
 
